@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="javscr.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juanito</title>
+    <style>
+
+        img {
+            width: 600px;
+            height: 600px;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        .slider-container { width: 100%; max-width: 600px; overflow: hidden; position: relative; }
+            .slider { display: flex; transition: transform 0.5s ease; }
+            .slide { min-width: 100%; }
+            .prev, .next { position: absolute; top: 50%; transform: translateY(-50%); padding: 10px; background-color: rgba(0, 0, 0, 0.5); color: white; cursor: pointer; font-size: 24px; }
+            .prev { left: 10px; }
+            .next { right: 10px; }
+    </style>
+
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide"><img src="https://static.wikia.nocookie.net/silly-cat/images/3/33/Noopy.png/revision/latest/thumbnail/width/360/height/360?cb=20231201205915"></div>
+            <div class="slide"><img src="https://media.tenor.com/0PPg0pxcY7kAAAAe/silly-cat.png"></div>
+            <div class="slide"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0IUOSQT5QGJxYN089YLxbSSZGVnE7kj1Af9NRgyoPZCZM3VvH0ffVy4yq0cxfd2vuOEo&usqp=CAU"></div>
+        </div>
+        <span class="prev">❮</span>
+        <span class="next">❯</span>
+    </div>
+</body>
+
+</html>
