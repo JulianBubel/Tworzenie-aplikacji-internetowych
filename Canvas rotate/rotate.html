@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>   
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>roteit</title>
+    <style>
+body{
+    background-color: black;
+}
+    </style>
+</head>
+
+<body>
+
+<canvas id="myCanvas" width="500" height="500" style="border:3px solid white;"></canvas>
+ 
+    <script>
+let ctx = document.getElementById('myCanvas').getContext('2d');
+let angle = 0;
+
+function convertToRadians(degree) {
+    return degree * (Math.PI / 180);
+}
+
+function kont() {
+    angle++;
+    if (angle > 360) {
+        angle = 0;
+    }
+}
+
+function kwadrat() {  
+    ctx.clearRect(0, 0, 1280, 720);
+    kont();
+    ctx.save();                
+    ctx.translate(200, 200);
+    ctx.rotate(convertToRadians(angle)); 
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(-25, -25, 50, 50);
+    ctx.strokeRect(-25, -25, 50, 50);                
+    ctx.restore();
+}
+
+function trojkat() {
+    ctx.save();
+    ctx.translate(400, 200); 
+    ctx.rotate(convertToRadians(angle));
+    ctx.fillStyle = 'green';
+    ctx.beginPath();
+    ctx.moveTo(0, -30); 
+    ctx.lineTo(25, 25); 
+    ctx.lineTo(-25, 25); 
+    ctx.closePath();
+    ctx.fill(); 
+    ctx.stroke(); 
+    ctx.restore();
+}
+
+function kolo() {
+    ctx.save();
+    ctx.translate(100, 200); 
+    ctx.rotate(convertToRadians(angle)); 
+    ctx.fillStyle = 'red';
+    ctx.beginPath();
+    ctx.arc(0, 0, 30, 0, Math.PI * 2);
+    ctx.fill(); 
+    ctx.stroke(); 
+    ctx.restore();
+}
+
+function animacja() {
+    ctx.clearRect(0, 0, 1280, 720); 
+    kont();
+    kwadrat();
+    trojkat();
+    kolo();
+}
+
+setInterval(animacja, 10);
+    </script> 
+    
+    </body>
+
+</html>
