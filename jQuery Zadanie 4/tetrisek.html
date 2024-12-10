@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>klocek</title>
+    <style>
+        body {
+            margin: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: darkgrey;
+        }
+        canvas {
+            background-color: #ffffff;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tetris" width="600" height="800"></canvas>
+
+    <script>
+        const canvas = document.getElementById("tetris");
+        const ctx = canvas.getContext("2d");
+        const canvasWidth = 600;
+        const canvasHeight = 800;
+        const blockSize = 40;
+
+        let blockX = canvasWidth / 2 - blockSize / 2;
+        let blockY = 0;
+        const fallSpeed = 1;
+        const moveSpeed = 20;
+
+        let isFalling = true;
+
+        function drawBlock() {
+            ctx.fillStyle = "#5F021F"; 
+            ctx.fillRect(blockX, blockY, blockSize, blockSize);
+        }
+
+        function drawGame() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight); 
+            drawBlock(); 
+        }
+
+        function updateGame() {
+            blockY += fallSpeed;
+            if (blockY + blockSize > canvasHeight) {
+                blockY = canvasHeight - blockSize;
+                isFalling = false; 
+            }
+
+            drawGame(); 
+          }
+
+        function moveBlock(e) {
+            if (!isFalling) { 
+                return;
+            }
+            if (e.key === "ArrowLeft" && blockX > 0) {
+                blockX -= moveSpeed; 
+            } else if (e.key === "ArrowRight" && blockX + blockSize < canvasWidth) {
+                blockX += moveSpeed; 
+            }
+        }
+
+        function gameLoop() {
+            updateGame(); 
+            requestAnimationFrame(gameLoop); 
+        }
+        window.addEventListener("keydown", moveBlock);
+        gameLoop();
+    </script>
+</body>
+</html>
