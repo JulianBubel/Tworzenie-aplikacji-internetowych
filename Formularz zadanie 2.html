@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bleed The Freak</title>
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            padding: 20px;
+        }
+        input, select, button {
+            display: block;
+            margin: 5px 0;
+        }
+        .ukryte {
+            display: none;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form id="formularz">
+        Imię: <input type="text" id="imie" required>
+        Nazwisko: <input type="text" id="nazwisko" required>
+        Wiek: <input type="number" id="wiek" required>
+        <div id="emailContainer">
+            Adres e-mail: <input type="email" name="mail" id="mail" required>
+        </div>
+        <button type="button" id="dodajEmail">Dodaj e-mail</button>
+        <button type="button" id="usunEmail">Usuń e-mail</button>
+        
+        Typ użytkownika:
+        <select id="typUzytkownika">
+            <option value="osoba">Osoba fizyczna</option>
+            <option value="firma">Firma</option>
+        </select>
+        
+        <div id="nipContainer" class="ukryte">
+            NIP: <input type="text" id="nip">
+        </div>
+
+        <button type="submit">Wyślij</button>
+        <button type="button" id="zapisz">Zapisz</button>
+    </form>
+    <div id="wynik" class="error"></div>
+
+    <script>
+        document.getElementById("dodajEmail").addEventListener("click", function() {
+            let emailContainer = document.getElementById("emailContainer");
+            let input = document.createElement("input");
+            input.type = "email";
+            input.name = "mail";
+            emailContainer.appendChild(input);
+        });
+
+        document.getElementById("usunEmail").addEventListener("click", function() {
+            let emailContainer = document.getElementById("emailContainer");
+            if (emailContainer.children.length > 1) {
+                emailContainer.removeChild(emailContainer.lastChild);
+            }
+        });
+
+        document.getElementById("typUzytkownika").addEventListener("change", function() {
+            let nipContainer = document.getElementById("nipContainer");
+            if (this.value === "firma") {
+                nipContainer.classList.remove("ukryte");
+            } else {
+                nipContainer.classList.add("ukryte");
+            }
+        });
+
+        document.getElementById("zapisz").addEventListener("click", function() {
+            let dane = {
+                imie: document.getElementById("imie").value,
+                nazwisko: document.getElementById("nazwisko").value,
+                wiek: document.getElementById("wiek").value,
+                emaile: [...document.querySelectorAll("input[name='mail']")] .map(input => input.value),
+                typ: document.getElementById("typUzytkownika").value
+            };
+            if (dane.typ === "firma") {
+                dane.nip = document.getElementById("nip").value;
+            }
+            console.log(dane);
+        });
+
+        document.getElementById("formularz").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let blad = "";
+            let imie = document.getElementById("imie").value.trim();
+            let nazwisko = document.getElementById("nazwisko").value.trim();
+            let wiek = document.getElementById("wiek").value.trim();
+            let mail = document.getElementById("mail").value.trim();
+            
+            let regexImie = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$/;
+            let regexMail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|pl|org)$/;
+            let regexWiek = /^[0-9]+$/;
+
+            if (!regexImie.test(imie)) blad += "Imię musi zaczynać się z dużej litery i zawierać tylko litery.<br>";
+            if (!regexImie.test(nazwisko)) blad += "Nazwisko musi zaczynać się z dużej litery i zawierać tylko litery.<br>";
+            if (!regexMail.test(mail)) blad += "Niepoprawny adres e-mail.<br>";
+            if (!regexWiek.test(wiek)) blad += "Niepoprawny wiek.<br>";
+        
+            document.getElementById("wynik").innerHTML = blad || "Formularz wysłany poprawnie!";
+        });
+    </script>
+</body>
+</html>
