@@ -1,0 +1,87 @@
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bubel3td</title>
+<style>
+    body{
+        background-color: black;
+        color: white;
+        padding: 20px;
+        font-size: 20px;
+    }
+    li{
+        padding: 3px;
+    }
+    button{
+        padding: 3px;
+        margin: 3px;
+    }
+    input{
+        height: 25px;
+    }
+</style>
+</head>
+<body>
+    <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Wpisz zadanie" required>
+        <button type="submit">Dodaj</button>
+    </form>
+    <ul id="taskList"></ul>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const taskForm = document.getElementById("taskForm");
+            const taskInput = document.getElementById("taskInput");
+            const taskList = document.getElementById("taskList");
+
+            function loadTasks() {
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                taskList.innerHTML = "";
+                tasks.forEach((task, index) => {
+                    const li = document.createElement("li");
+                    li.textContent = task;
+                    
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Usuń";
+                    deleteButton.addEventListener("click", function () {
+                        removeTask(index);
+                    });
+                    
+                    li.appendChild(deleteButton);
+                    taskList.appendChild(li);
+                });
+            }
+
+            function saveTasks(tasks) {
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+            }
+
+            function addTask(task) {
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                tasks.push(task);
+                saveTasks(tasks);
+                loadTasks();
+            }
+
+            function removeTask(index) {
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                tasks.splice(index, 1);
+                saveTasks(tasks);
+                loadTasks();
+            }
+
+            taskForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const task = taskInput.value.trim();
+                if (task) {
+                    addTask(task);
+                    taskInput.value = "";
+                }
+            });
+
+            loadTasks();
+        });
+    </script>
+</body>
+</html>
